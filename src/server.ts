@@ -17,6 +17,16 @@ const api = {
   here: new HereClient(),
 };
 
+const DEFAULT_CACHE_CONTROL_MAX_AGE = 60 * 60 * 24; // 1 day
+const DEFAULT_CACHE_CONTROL_STALE_WHILE_REVALIDATE = 60; // 1 minute
+
+const DEFAULT_PUBLIC_CACHE_CONTROL_HEADER = [
+  'public',
+  `max-age=${DEFAULT_CACHE_CONTROL_MAX_AGE}`,
+  `s-maxage=${DEFAULT_CACHE_CONTROL_MAX_AGE}`,
+  `stale-while-revalidate=${DEFAULT_CACHE_CONTROL_STALE_WHILE_REVALIDATE}`,
+].join(', ');
+
 const searchCitiesSchema = z.object({
   query: z.string(),
 });
@@ -41,7 +51,10 @@ server.get('/cities', async (request, reply) => {
     },
   }));
 
-  return reply.status(200).send(cities satisfies LocationOperations['cities/search']['response']['200']['body']);
+  return reply
+    .header('cache-control', DEFAULT_PUBLIC_CACHE_CONTROL_HEADER)
+    .status(200)
+    .send(cities satisfies LocationOperations['cities/search']['response']['200']['body']);
 });
 
 const getDistanceBetweenCitiesSchema = z.object({
@@ -103,9 +116,12 @@ server.get('/cities/distances', async (request, reply) => {
     { latitude: destinationPosition.lat, longitude: destinationPosition.lng },
   );
 
-  return reply.status(200).send({
-    kilometers: distanceInKilometers,
-  } satisfies LocationOperations['cities/distances/get']['response']['200']['body']);
+  return reply
+    .header('cache-control', DEFAULT_PUBLIC_CACHE_CONTROL_HEADER)
+    .status(200)
+    .send({
+      kilometers: distanceInKilometers,
+    } satisfies LocationOperations['cities/distances/get']['response']['200']['body']);
 });
 
 server.setErrorHandler(async (error, _request, reply) => {
