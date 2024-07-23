@@ -1,0 +1,21 @@
+# Dependencies
+/node_modules
+
+# Next.js
+/.next
+/out
+
+# Build
+/build
+
+# Testing
+/tests/coverage
+
+# Configuration
+/.lintstagedrc.js
+/postcss.config.js
+/tailwind.config.js
+/next.config.js
+
+# Misc
+/local
