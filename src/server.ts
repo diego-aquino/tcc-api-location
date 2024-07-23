@@ -4,7 +4,8 @@ import { z, ZodError } from 'zod';
 
 import { environment } from './config/environment';
 import HereClient from './services/here/HereClient';
-import { City } from './types/cities';
+import { LocationComponents, LocationOperations } from './types/generated';
+import { City } from './types/locations';
 import { calculateDistanceByCoordinates } from './utils/distances';
 
 const server = fastify({
@@ -21,7 +22,10 @@ const searchCitiesSchema = z.object({
 });
 
 server.get('/cities', async (request, reply) => {
-  const { query } = searchCitiesSchema.parse(request.query);
+  const { query } = searchCitiesSchema.parse(
+    request.query,
+  ) satisfies LocationOperations['cities/search']['request']['searchParams'];
+
   const hereCities = await api.here.searchCities(query);
 
   const cities = hereCities.map<City>((city) => ({
@@ -37,7 +41,7 @@ server.get('/cities', async (request, reply) => {
     },
   }));
 
-  return reply.status(200).send(cities);
+  return reply.status(200).send(cities satisfies LocationOperations['cities/search']['response']['200']['body']);
 });
 
 const getDistanceBetweenCitiesSchema = z.object({
@@ -46,7 +50,9 @@ const getDistanceBetweenCitiesSchema = z.object({
 });
 
 server.get('/cities/distances', async (request, reply) => {
-  const { originCityId, destinationCityId } = getDistanceBetweenCitiesSchema.parse(request.query);
+  const { originCityId, destinationCityId } = getDistanceBetweenCitiesSchema.parse(
+    request.query,
+  ) satisfies LocationOperations['cities/distances/get']['request']['searchParams'];
 
   const [originCityLookupResult, destinationCityLookupResult] = await Promise.allSettled([
     api.here.lookupById(originCityId),
@@ -55,7 +61,9 @@ server.get('/cities/distances', async (request, reply) => {
 
   if (originCityLookupResult.status === 'rejected') {
     if (originCityLookupResult.reason instanceof AxiosError && originCityLookupResult.reason.response?.status === 404) {
-      return reply.status(404).send({ message: 'Origin city not found' });
+      return reply.status(404).send({
+        message: 'Origin city not found',
+      } satisfies LocationOperations['cities/distances/get']['response']['404']['body']);
     }
     throw originCityLookupResult.reason;
   }
@@ -65,7 +73,9 @@ server.get('/cities/distances', async (request, reply) => {
       destinationCityLookupResult.reason instanceof AxiosError &&
       destinationCityLookupResult.reason.response?.status === 404
     ) {
-      return reply.status(404).send({ message: 'Destination city not found' });
+      return reply.status(404).send({
+        message: 'Destination city not found',
+      } satisfies LocationOperations['cities/distances/get']['response']['404']['body']);
     }
     throw destinationCityLookupResult.reason;
   }
@@ -77,11 +87,15 @@ server.get('/cities/distances', async (request, reply) => {
   const destinationPosition = destinationCity.position;
 
   if (!originPosition) {
-    return reply.status(404).send({ message: 'Could not find the coordinates of the origin city' });
+    return reply.status(404).send({
+      message: 'Could not find the coordinates of the origin city',
+    } satisfies LocationOperations['cities/distances/get']['response']['404']['body']);
   }
 
   if (!destinationPosition) {
-    return reply.status(404).send({ message: 'Could not find the coordinates of the destination city' });
+    return reply.status(404).send({
+      message: 'Could not find the coordinates of the destination city',
+    } satisfies LocationOperations['cities/distances/get']['response']['404']['body']);
   }
 
   const distanceInKilometers = calculateDistanceByCoordinates(
@@ -89,7 +103,9 @@ server.get('/cities/distances', async (request, reply) => {
     { latitude: destinationPosition.lat, longitude: destinationPosition.lng },
   );
 
-  return reply.status(200).send({ distanceInKilometers });
+  return reply.status(200).send({
+    kilometers: distanceInKilometers,
+  } satisfies LocationOperations['cities/distances/get']['response']['200']['body']);
 });
 
 server.setErrorHandler(async (error, _request, reply) => {
@@ -97,7 +113,7 @@ server.setErrorHandler(async (error, _request, reply) => {
     return reply.status(400).send({
       message: 'Validation error',
       issues: error.issues,
-    });
+    } satisfies LocationComponents['schemas']['ValidationError']);
   }
 
   if (error instanceof AxiosError) {
@@ -117,7 +133,9 @@ server.setErrorHandler(async (error, _request, reply) => {
     });
   }
 
-  return reply.status(500).send({ error: 'Internal server error' });
+  return reply.status(500).send({
+    message: 'Internal server error',
+  } satisfies LocationComponents['schemas']['InternalServerError']);
 });
 
 export default server;

@@ -252,6 +252,12 @@
       "rules": {
         "@typescript-eslint/no-non-null-assertion": "off"
       }
+    },
+    {
+      "files": ["**/types/**/generated.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
     }
   ]
 }
