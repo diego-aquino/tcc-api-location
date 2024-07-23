@@ -1,0 +1,13 @@
+GET http://localhost:3000/cities
+  ?query='Campina Grande, PB'
+
+###
+
+GET http://localhost:3000/cities
+  ?query='Brasília, DF'
+
+###
+
+GET http://localhost:3000/cities/distances
+  ?originCityId=aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDMwNjEy
+  &destinationCityId=aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDM2NjI4

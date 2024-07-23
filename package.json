@@ -7,7 +7,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "dotenv -c development -- tsx src/index.ts",
+    "dev": "dotenv -c development -- tsx watch src/index.ts",
     "build": "dotenv -c production -- tsup",
     "start": "dotenv -c production -- node dist/index.js",
     "lint": "eslint --ext 'ts,tsx' --cache --no-error-on-unmatched-pattern --max-warnings 0 --fix",
@@ -15,10 +15,17 @@
     "style:check": "pnpm style --check",
     "style:format": "pnpm style --write",
     "types:check": "tsc --noEmit",
+    "typegen:here": "dotenv -c development -- pnpm typegen:here-search",
+    "typegen:here-search": "zimic typegen openapi $HERE_SEARCH_OPENAPI_URL --output src/services/here/types/generated.ts --service-name Here --filter-file src/services/here/types/filters.txt",
     "test": "dotenv -c test -- dotenv -c development -- vitest",
     "pre:commit": "lint-staged",
     "pre:push": "concurrently --names style,types,lint 'pnpm style:check .' 'pnpm types:check' 'pnpm lint .'",
     "prepare": "husky || echo 'Could not install git hooks with husky.'"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "fastify": "^4.28.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
@@ -38,6 +45,7 @@
     "prettier-plugin-sh": "^0.14.0",
     "tsup": "^8.2.2",
     "tsx": "^4.16.2",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "zimic": "^0.8.2"
   }
 }
