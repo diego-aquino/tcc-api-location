@@ -25,10 +25,20 @@ export async function loadServerSwagger() {
 
   await server.register(fastifySwaggerUI, {
     routePrefix: '/',
+    staticCSP: true,
     uiConfig: {
       docExpansion: 'list',
       displayRequestDuration: true,
+      deepLinking: true,
     },
-    staticCSP: true,
+    theme: {
+      title: 'API de Localização',
+      css: [
+        {
+          filename: 'custom.css',
+          content: '.swagger-ui .topbar { display: none; }',
+        },
+      ],
+    },
   });
 }
