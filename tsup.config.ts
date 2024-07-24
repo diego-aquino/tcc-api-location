@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
@@ -5,12 +6,12 @@ export default defineConfig({
   splitting: true,
   sourcemap: true,
   treeshake: true,
-  minify: process.env.NODE_ENV === 'production',
+  minify: false,
   clean: true,
   platform: 'node',
   format: ['cjs'],
   dts: false,
   entry: {
-    index: 'src/index.ts',
+    index: path.join('src', 'index.ts'),
   },
 });

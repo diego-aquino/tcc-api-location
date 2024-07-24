@@ -6,7 +6,7 @@
 /out
 
 # Build
-/build
+/dist
 
 # Testing
 /tests/coverage
