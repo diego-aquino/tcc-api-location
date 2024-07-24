@@ -3,6 +3,13 @@
   "buildCommand": null,
   "outputDirectory": "public",
   "trailingSlash": false,
+  "functions": {
+    "api/index.js": {
+      "memory": 1024,
+      "maxDuration": 10,
+      "includeFiles": "docs/spec/**/*"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
