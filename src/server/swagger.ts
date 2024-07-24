@@ -12,7 +12,7 @@ const OPENAPI_SPEC_DIRECTORY = path.join(ROOT_DIRECTORY, 'docs', 'spec');
 export async function loadServerSwagger() {
   await server.register(fastifyStatic, {
     root: OPENAPI_SPEC_DIRECTORY,
-    prefix: '/docs/spec',
+    prefix: '/spec',
   });
 
   await server.register(fastifySwagger, {
@@ -24,7 +24,7 @@ export async function loadServerSwagger() {
   });
 
   await server.register(fastifySwaggerUI, {
-    routePrefix: '/docs',
+    routePrefix: '/',
     uiConfig: {
       docExpansion: 'full',
       deepLinking: false,

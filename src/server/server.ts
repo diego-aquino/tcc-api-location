@@ -9,15 +9,6 @@ import { City } from '../types/locations';
 import { calculateDistanceByCoordinates } from '../utils/distances';
 import { handleServerError } from './errors';
 
-const server = fastify({
-  logger: true,
-  disableRequestLogging: environment.NODE_ENV !== 'development',
-});
-
-const api = {
-  here: new HereClient(),
-};
-
 const DEFAULT_CACHE_CONTROL_MAX_AGE = 60 * 60 * 24; // 1 day
 const DEFAULT_CACHE_CONTROL_STALE_WHILE_REVALIDATE = 60; // 1 minute
 
@@ -27,6 +18,15 @@ const DEFAULT_PUBLIC_CACHE_CONTROL_HEADER = [
   `s-maxage=${DEFAULT_CACHE_CONTROL_MAX_AGE}`,
   `stale-while-revalidate=${DEFAULT_CACHE_CONTROL_STALE_WHILE_REVALIDATE}`,
 ].join(', ');
+
+const api = {
+  here: new HereClient(),
+};
+
+const server = fastify({
+  logger: true,
+  disableRequestLogging: environment.NODE_ENV !== 'development',
+});
 
 const searchCitiesSchema = z.object({
   query: z.string(),
