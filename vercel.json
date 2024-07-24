@@ -1,9 +1,8 @@
 {
   "installCommand": "pnpm install --frozen-lockfile --prod=false",
   "devCommand": "pnpm dev",
-  "buildCommand": "pnpm build && mkdir -p public && cp -r dist api",
+  "buildCommand": "pnpm build && cp -r dist api",
   "trailingSlash": false,
-  "outputDirectory": null,
   "rewrites": [
     {
       "source": "/(.*)",
