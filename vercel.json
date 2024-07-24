@@ -3,12 +3,6 @@
   "buildCommand": null,
   "outputDirectory": "public",
   "trailingSlash": false,
-  "functions": {
-    "api/**/*.ts": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
     {
       "source": "/(.*)",
