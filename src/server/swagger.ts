@@ -26,8 +26,8 @@ export async function loadServerSwagger() {
   await server.register(fastifySwaggerUI, {
     routePrefix: '/',
     uiConfig: {
-      docExpansion: 'full',
-      deepLinking: false,
+      docExpansion: 'list',
+      displayRequestDuration: true,
     },
     staticCSP: true,
   });
