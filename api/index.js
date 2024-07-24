@@ -1,1 +1,1 @@
-require('../dist/serverless');
+module.exports = require('../dist/serverless');
