@@ -1,9 +1,13 @@
 {
   "installCommand": "pnpm install --frozen-lockfile --prod=false",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api"
+  "devCommand": "pnpm dev",
+  "buildCommand": "pnpm build",
+  "outputDirectory": "public",
+  "trailingSlash": false,
+  "functions": {
+    "dist/serverless.js": {
+      "memory": 1024,
+      "maxDuration": 10
     }
-  ]
+  }
 }

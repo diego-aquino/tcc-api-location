@@ -1,4 +1,4 @@
-const lintIgnoredFiles = ['.lintstagedrc.js', '.*ignore', '*.json', 'api/**/*.js*'];
+const lintIgnoredFiles = ['.lintstagedrc.js', '.*', '*.json'];
 
 module.exports = {
   '*': ['pnpm style:format'],

@@ -13,5 +13,6 @@ export default defineConfig({
   dts: false,
   entry: {
     index: path.join('src', 'index.ts'),
+    serverless: path.join('src', 'serverless.ts'),
   },
 });

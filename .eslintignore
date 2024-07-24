@@ -7,7 +7,6 @@
 
 # Build
 /dist
-/api
 
 # Testing
 /tests/coverage

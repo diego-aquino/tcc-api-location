@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "dotenv -c development -- tsx watch src/index.ts",
+    "build": "dotenv -c production -- tsup",
     "start": "dotenv -c production -- node dist/index.js",
     "lint": "eslint --ext 'ts,tsx' --cache --no-error-on-unmatched-pattern --max-warnings 0 --fix",
     "style": "prettier --log-level warn --ignore-unknown --no-error-on-unmatched-pattern --cache",
