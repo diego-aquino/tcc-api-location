@@ -4,6 +4,7 @@
 
 # Build
 /dist
+/api
 
 # Tests
 /tests/coverage

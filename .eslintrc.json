@@ -4,7 +4,7 @@
 
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaFeatures": { "js": true, "jsx": true, "ts": true, "tsx": true },
+    "ecmaFeatures": { "ts": true },
     "ecmaVersion": 2020,
     "sourceType": "module",
     "project": "tsconfig.json"

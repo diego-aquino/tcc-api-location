@@ -1,6 +1,6 @@
-const ignoredFilenamesWithoutExtension = ['.lintstagedrc'];
+const lintIgnoredFiles = ['.lintstagedrc.js', '.*ignore', '*.json', 'api/**/*.js*'];
 
 module.exports = {
   '*': ['pnpm style:format'],
-  [`**/!(${ignoredFilenamesWithoutExtension.join('|')})*.(j|t)s(x|)`]: ['pnpm lint'],
+  [`!(${lintIgnoredFiles.join('|')})`]: ['pnpm lint'],
 };
