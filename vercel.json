@@ -1,11 +1,10 @@
 {
   "installCommand": "pnpm install --frozen-lockfile --prod=false",
-  "devCommand": "pnpm dev",
-  "buildCommand": "pnpm build && mv dist api && mv api/serverless.js api/index.js && mv api/serverless.js.map api/index.js.map",
+  "buildCommand": null,
   "outputDirectory": "public",
   "trailingSlash": false,
   "functions": {
-    "api/index.js": {
+    "api/**/*.ts": {
       "memory": 1024,
       "maxDuration": 10
     }
