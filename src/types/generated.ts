@@ -13,7 +13,7 @@ export type LocationSchema = HttpSchema<{
     /** Buscar cidades */
     GET: LocationOperations['cities/search'];
   };
-  '/cities/distances': {
+  '/cities/:originCityId/distances/cities/:destinationCityId': {
     /** Obter a distância entre duas cidades */
     GET: LocationOperations['cities/distances/get'];
   };
@@ -32,26 +32,30 @@ export interface LocationComponents {
        * @example São Paulo
        */
       name?: string;
-      /**
-       * @description O nome do estado
-       * @example São Paulo
-       */
-      stateName?: string;
-      /**
-       * @description O código do estado
-       * @example SP
-       */
-      stateCode?: string;
-      /**
-       * @description O nome do país
-       * @example Brasil
-       */
-      countryName?: string;
-      /**
-       * @description O código do país
-       * @example BRA
-       */
-      countryCode?: string;
+      state?: {
+        /**
+         * @description O nome do estado
+         * @example São Paulo
+         */
+        name?: string;
+        /**
+         * @description O código do estado
+         * @example SP
+         */
+        code?: string;
+      };
+      country?: {
+        /**
+         * @description O nome do país
+         * @example Brasil
+         */
+        name?: string;
+        /**
+         * @description O código do país
+         * @example BRA
+         */
+        code?: string;
+      };
     };
     Distance: {
       /**
@@ -141,20 +145,6 @@ export interface LocationOperations {
     >;
   }>;
   'cities/distances/get': HttpSchema.Method<{
-    request: {
-      searchParams: HttpSearchParamsSerialized<{
-        /**
-         * @description O identificador da cidade de origem
-         * @example aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDMwNjEy
-         */
-        originCityId: string;
-        /**
-         * @description O identificador da cidade de destino
-         * @example aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDM2NjI4
-         */
-        destinationCityId: string;
-      }>;
-    };
     response: MergeHttpResponsesByStatusCode<
       [
         {

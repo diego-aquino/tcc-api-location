@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import type { LiteralHttpServiceSchemaPath } from 'zimic/http';
+import type { LiteralHttpServiceSchemaPath, PathParamsSchemaFromPath } from 'zimic/http';
 import { z } from 'zod';
 
 import api from '@/clients/api';
@@ -34,10 +34,14 @@ app.get('/cities' satisfies LocationPath, async (request, reply) => {
     (city): City => ({
       id: city.id,
       name: city.address.city,
-      stateName: city.address.state,
-      stateCode: city.address.stateCode,
-      countryName: city.address.countryName,
-      countryCode: city.address.countryCode,
+      state: {
+        name: city.address.state,
+        code: city.address.stateCode,
+      },
+      country: {
+        name: city.address.countryName,
+        code: city.address.countryCode,
+      },
     }),
   );
 
@@ -53,10 +57,14 @@ const getDistanceBetweenCitiesSchema = z.object({
   destinationCityId: z.string().min(1),
 });
 
-app.get('/cities/distances' satisfies LocationPath, async (request, reply) => {
+type GetDistanceBetweenCitiesParams = PathParamsSchemaFromPath<
+  Extract<keyof LocationSchema, '/cities/:originCityId/distances/cities/:destinationCityId'>
+>;
+
+app.get('/cities/:originCityId/distances/cities/:destinationCityId' satisfies LocationPath, async (request, reply) => {
   const { originCityId, destinationCityId } = getDistanceBetweenCitiesSchema.parse(
-    request.query,
-  ) satisfies LocationOperations['cities/distances/get']['request']['searchParams'];
+    request.params,
+  ) satisfies GetDistanceBetweenCitiesParams;
 
   const [originCity, destinationCity] = await Promise.all([
     api.here.lookupById(originCityId),

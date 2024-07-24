@@ -43,7 +43,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
 
-  /cities/distances:
+  /cities/{originCityId}/distances/cities/{destinationCityId}:
     get:
       summary: Obter a distância entre duas cidades
       operationId: cities/distances/get
@@ -51,14 +51,14 @@ paths:
         - Localização
       parameters:
         - name: originCityId
-          in: query
+          in: path
           description: O identificador da cidade de origem
           required: true
           schema:
             type: string
           example: aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDMwNjEy
         - name: destinationCityId
-          in: query
+          in: path
           description: O identificador da cidade de destino
           required: true
           schema:
@@ -96,6 +96,8 @@ components:
       type: object
       required:
         - id
+        - state
+        - country
       properties:
         id:
           type: string
@@ -105,22 +107,28 @@ components:
           type: string
           description: O nome da cidade
           example: São Paulo
-        stateName:
-          type: string
-          description: O nome do estado
-          example: São Paulo
-        stateCode:
-          type: string
-          description: O código do estado
-          example: SP
-        countryName:
-          type: string
-          description: O nome do país
-          example: Brasil
-        countryCode:
-          type: string
-          description: O código do país
-          example: BRA
+        state:
+          type: object
+          properties:
+            name:
+              type: string
+              description: O nome do estado
+              example: São Paulo
+            code:
+              type: string
+              description: O código do estado
+              example: SP
+        country:
+          type: object
+          properties:
+            name:
+              type: string
+              description: O nome do país
+              example: Brasil
+            code:
+              type: string
+              description: O código do país
+              example: BRA
 
     Distance:
       type: object
