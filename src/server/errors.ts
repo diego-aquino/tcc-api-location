@@ -5,12 +5,25 @@ import { ZodError } from 'zod';
 import server from '@/server/server';
 import { LocationComponents } from '@/types/generated';
 
+export class NotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'NotFoundError';
+  }
+}
+
 export function handleServerError(error: FastifyError, _request: FastifyRequest, reply: FastifyReply) {
   if (error instanceof ZodError) {
     return reply.status(400).send({
       message: 'Validation error',
       issues: error.issues,
     } satisfies LocationComponents['schemas']['ValidationError']);
+  }
+
+  if (error instanceof NotFoundError) {
+    return reply.status(404).send({
+      message: error.message,
+    } satisfies LocationComponents['schemas']['NotFoundError']);
   }
 
   if (error instanceof AxiosError) {

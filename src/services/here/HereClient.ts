@@ -1,12 +1,13 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 
 import { environment } from '@/config/environment';
 
+import { LookupPlaceNotFoundError } from './errors';
 import {
   HereGeocodeResultItem,
   HereGeocodeSearchParams,
   HereGeocodeSuccessResponseBody,
-  HereLookupPoint,
+  HereLookupPlace,
   HereLookupSearchParams,
   HereLookupSuccessResponseBody,
 } from './types';
@@ -59,18 +60,25 @@ class HereClient {
     return items;
   }
 
-  async lookupById(pointId: string): Promise<HereLookupPoint> {
+  async lookupById(pointId: string): Promise<HereLookupPlace> {
     const decodedId = this.decodePointId(pointId);
 
-    const response = await this.api.lookup.get<HereLookupSuccessResponseBody>('/lookup', {
-      params: {
-        id: decodedId,
-        lang: ['pt'],
-      } satisfies HereLookupSearchParams,
-    });
+    try {
+      const response = await this.api.lookup.get<HereLookupSuccessResponseBody>('/lookup', {
+        params: {
+          id: decodedId,
+          lang: ['pt'],
+        } satisfies HereLookupSearchParams,
+      });
 
-    const point = response.data;
-    return point;
+      const place = response.data;
+      return place;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.status === 404) {
+        throw new LookupPlaceNotFoundError(pointId);
+      }
+      throw error;
+    }
   }
 
   private encodePointId(pointId: string) {

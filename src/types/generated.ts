@@ -32,32 +32,26 @@ export interface LocationComponents {
        * @example São Paulo
        */
       name?: string;
-      /** @description O estado da cidade */
-      state?: {
-        /**
-         * @description O nome do estado
-         * @example São Paulo
-         */
-        name?: string;
-        /**
-         * @description O código do estado
-         * @example SP
-         */
-        code?: string;
-      };
-      /** @description O país da cidade */
-      country?: {
-        /**
-         * @description O nome do país
-         * @example Brasil
-         */
-        name?: string;
-        /**
-         * @description O código do país
-         * @example BRA
-         */
-        code?: string;
-      };
+      /**
+       * @description O nome do estado
+       * @example São Paulo
+       */
+      stateName?: string;
+      /**
+       * @description O código do estado
+       * @example SP
+       */
+      stateCode?: string;
+      /**
+       * @description O nome do país
+       * @example Brasil
+       */
+      countryName?: string;
+      /**
+       * @description O código do país
+       * @example BRA
+       */
+      countryCode?: string;
     };
     Distance: {
       /**

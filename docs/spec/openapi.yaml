@@ -105,30 +105,22 @@ components:
           type: string
           description: O nome da cidade
           example: São Paulo
-        state:
-          type: object
-          description: O estado da cidade
-          properties:
-            name:
-              type: string
-              description: O nome do estado
-              example: São Paulo
-            code:
-              type: string
-              description: O código do estado
-              example: SP
-        country:
-          type: object
-          description: O país da cidade
-          properties:
-            name:
-              type: string
-              description: O nome do país
-              example: Brasil
-            code:
-              type: string
-              description: O código do país
-              example: BRA
+        stateName:
+          type: string
+          description: O nome do estado
+          example: São Paulo
+        stateCode:
+          type: string
+          description: O código do estado
+          example: SP
+        countryName:
+          type: string
+          description: O nome do país
+          example: Brasil
+        countryCode:
+          type: string
+          description: O código do país
+          example: BRA
 
     Distance:
       type: object
