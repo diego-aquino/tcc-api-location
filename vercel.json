@@ -3,6 +3,7 @@
   "devCommand": "pnpm dev",
   "buildCommand": "pnpm build && cp -r dist api",
   "trailingSlash": false,
+  "outputDirectory": null,
   "rewrites": [
     {
       "source": "/(.*)",
