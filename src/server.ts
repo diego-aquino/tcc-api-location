@@ -1,14 +1,15 @@
 import { AxiosError } from 'axios';
 import fastify from 'fastify';
-import { z, ZodError } from 'zod';
+import { z } from 'zod';
 
 import { environment } from './config/environment';
+import { handleServerError } from './server/errors';
 import HereClient from './services/here/HereClient';
-import { LocationComponents, LocationOperations } from './types/generated';
+import { LocationOperations } from './types/generated';
 import { City } from './types/locations';
 import { calculateDistanceByCoordinates } from './utils/distances';
 
-const server = fastify({
+export const server = fastify({
   logger: true,
   disableRequestLogging: environment.NODE_ENV !== 'development',
 });
@@ -124,34 +125,6 @@ server.get('/cities/distances', async (request, reply) => {
     } satisfies LocationOperations['cities/distances/get']['response']['200']['body']);
 });
 
-server.setErrorHandler(async (error, _request, reply) => {
-  if (error instanceof ZodError) {
-    return reply.status(400).send({
-      message: 'Validation error',
-      issues: error.issues,
-    } satisfies LocationComponents['schemas']['ValidationError']);
-  }
-
-  if (error instanceof AxiosError) {
-    const formattedError = {
-      ...error.toJSON(),
-      data: error.response?.data as unknown,
-    };
-
-    server.log.error({
-      message: 'Request error',
-      error: formattedError,
-    });
-  } else {
-    server.log.error({
-      message: 'Internal server error',
-      error,
-    });
-  }
-
-  return reply.status(500).send({
-    message: 'Internal server error',
-  } satisfies LocationComponents['schemas']['InternalServerError']);
-});
+server.setErrorHandler(handleServerError);
 
 export default server;
