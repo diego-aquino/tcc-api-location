@@ -1,3 +1,6 @@
 import path from 'path';
 
-export const ROOT_DIRECTORY = path.join(__dirname, '..', '..');
+import { environment } from './environment';
+
+export const ROOT_DIRECTORY =
+  environment.NODE_ENV === 'production' ? path.join(__dirname, '..') : path.join(__dirname, '..', '..');
