@@ -18,10 +18,11 @@ paths:
       parameters:
         - name: query
           in: query
-          description: O nome da cidade para busca
+          description: O nome da cidade a ser buscada
           required: true
           schema:
             type: string
+          example: São Paulo
       responses:
         '200':
           description: Cidades encontradas
@@ -46,7 +47,7 @@ paths:
 
   /cities/distances:
     get:
-      summary: Obter distância entre cidades
+      summary: Obter a distância entre duas cidades
       operationId: cities/distances/get
       tags:
         - Localização
@@ -67,7 +68,7 @@ paths:
           example: aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDM2NjI4
       responses:
         '200':
-          description: Distância encontrada
+          description: Distância calculada
           content:
             application/json:
               schema:
@@ -150,12 +151,29 @@ components:
         message:
           type: string
           description: A mensagem de erro
-          example: Entrada inválida
+          example: Validation error
         issues:
           type: array
           description: Os problemas de validação
           items:
             type: object
+            properties:
+              message:
+                type: string
+                description: A mensagem de erro
+                example: 'Invalid input: expected string, received number'
+              code:
+                type: string
+                description: O código do erro
+                example: invalid_type
+              path:
+                type: array
+                description: O caminho do erro
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+                example: ['names', 1]
             additionalProperties: true
 
     NotFoundError:
@@ -166,7 +184,7 @@ components:
         message:
           type: string
           description: A mensagem de erro
-          example: Item não encontrado
+          example: Not found
 
     InternalServerError:
       type: object
@@ -176,4 +194,4 @@ components:
         message:
           type: string
           description: A mensagem de erro
-          example: Erro inesperado
+          example: Internal server error

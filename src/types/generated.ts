@@ -14,7 +14,7 @@ export type LocationSchema = HttpSchema.Paths<{
     GET: LocationOperations['cities/search'];
   };
   '/cities/distances': {
-    /** Obter distância entre cidades */
+    /** Obter a distância entre duas cidades */
     GET: LocationOperations['cities/distances/get'];
   };
 }>;
@@ -70,25 +70,43 @@ export interface LocationComponents {
     ValidationError: {
       /**
        * @description A mensagem de erro
-       * @example Entrada inválida
+       * @example Validation error
        */
       message: string;
       /** @description Os problemas de validação */
       issues?: {
+        /**
+         * @description A mensagem de erro
+         * @example Invalid input: expected string, received number
+         */
+        message?: string;
+        /**
+         * @description O código do erro
+         * @example invalid_type
+         */
+        code?: string;
+        /**
+         * @description O caminho do erro
+         * @example [
+         *       "names",
+         *       1
+         *     ]
+         */
+        path?: (string | number)[];
         [key: string]: any;
       }[];
     };
     NotFoundError: {
       /**
        * @description A mensagem de erro
-       * @example Item não encontrado
+       * @example Not found
        */
       message: string;
     };
     InternalServerError: {
       /**
        * @description A mensagem de erro
-       * @example Erro inesperado
+       * @example Internal server error
        */
       message: string;
     };
@@ -99,7 +117,10 @@ export interface LocationOperations {
   'cities/search': HttpSchema.Method<{
     request: {
       searchParams: HttpSearchParamsSerialized<{
-        /** @description O nome da cidade para busca */
+        /**
+         * @description O nome da cidade a ser buscada
+         * @example São Paulo
+         */
         query: string;
       }>;
     };
@@ -142,7 +163,7 @@ export interface LocationOperations {
     response: MergeHttpResponsesByStatusCode<
       [
         {
-          /** @description Distância encontrada */
+          /** @description Distância calculada */
           200: {
             body: LocationComponents['schemas']['Distance'];
           };

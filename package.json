@@ -16,7 +16,7 @@
     "style:format": "pnpm style --write",
     "types:check": "tsc --noEmit",
     "typegen": "dotenv -c development -- concurrently --names location,here-search 'pnpm typegen:location' 'pnpm typegen:here-search' && pnpm lint 'src/**/*generated.ts'",
-    "typegen:location": "zimic typegen openapi ./docs/openapi.yaml --output src/types/generated.ts --service-name Location",
+    "typegen:location": "zimic typegen openapi ./docs/specs/openapi.yaml --output src/types/generated.ts --service-name Location",
     "typegen:here-search": "zimic typegen openapi $HERE_SEARCH_OPENAPI_URL --output src/services/here/types/search.generated.ts --service-name HereSearch --filter-file src/services/here/types/searchFilters.txt",
     "test": "dotenv -c test -- dotenv -c development -- vitest",
     "pre:commit": "lint-staged",
