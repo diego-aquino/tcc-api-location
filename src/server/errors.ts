@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { FastifyError, FastifyRequest, FastifyReply } from 'fastify';
 import { ZodError } from 'zod';
 
-import { server } from '@/server';
+import server from '@/server/server';
 import { LocationComponents } from '@/types/generated';
 
 export function handleServerError(error: FastifyError, _request: FastifyRequest, reply: FastifyReply) {

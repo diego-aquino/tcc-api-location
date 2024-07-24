@@ -2,14 +2,14 @@ import { AxiosError } from 'axios';
 import fastify from 'fastify';
 import { z } from 'zod';
 
-import { environment } from './config/environment';
-import { handleServerError } from './server/errors';
-import HereClient from './services/here/HereClient';
-import { LocationOperations } from './types/generated';
-import { City } from './types/locations';
-import { calculateDistanceByCoordinates } from './utils/distances';
+import { environment } from '../config/environment';
+import HereClient from '../services/here/HereClient';
+import { LocationOperations } from '../types/generated';
+import { City } from '../types/locations';
+import { calculateDistanceByCoordinates } from '../utils/distances';
+import { handleServerError } from './errors';
 
-export const server = fastify({
+const server = fastify({
   logger: true,
   disableRequestLogging: environment.NODE_ENV !== 'development',
 });
