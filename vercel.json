@@ -1,13 +1,19 @@
 {
   "installCommand": "pnpm install --frozen-lockfile --prod=false",
   "devCommand": "pnpm dev",
-  "buildCommand": "pnpm build",
+  "buildCommand": "pnpm build && mv dist api && mv api/serverless.js api/index.js && mv api/serverless.js.map api/index.js.map",
   "outputDirectory": "public",
   "trailingSlash": false,
   "functions": {
-    "dist/serverless.js": {
+    "api/index.js": {
       "memory": 1024,
       "maxDuration": 10
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api"
+    }
+  ]
 }
