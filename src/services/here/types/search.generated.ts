@@ -3,7 +3,7 @@
 
 import type { HttpHeadersSerialized, HttpSchema, HttpSearchParamsSerialized } from 'zimic/http';
 
-export type HereSchema = HttpSchema.Paths<{
+export type HereSearchSchema = HttpSchema.Paths<{
   '/geocode': {
     /**
      * Geocode
@@ -186,23 +186,23 @@ export type HereSchema = HttpSchema.Paths<{
       response: {
         /** @description The search results. */
         200: {
-          body: HereComponents['schemas']['OpenSearchGeocodeResponse'];
+          body: HereSearchComponents['schemas']['OpenSearchGeocodeResponse'];
         };
         /** @description Client error: request failed validation. */
         400: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
         /** @description Client error: http method not supported. */
         405: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
         /** @description Client error: Rate limit exceeded. */
         429: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
         /** @description Temporary server error. */
         503: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
       };
     };
@@ -319,38 +319,38 @@ export type HereSchema = HttpSchema.Paths<{
       response: {
         /** @description The search results. */
         200: {
-          body: HereComponents['schemas']['LookupResponse'];
+          body: HereSearchComponents['schemas']['LookupResponse'];
         };
         /** @description Client error: request failed validation. */
         400: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
         /** @description Requested id could not be found. */
         404: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
         /** @description Client error: http method not supported. */
         405: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
         /** @description Client error: Rate limit exceeded. */
         429: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
         /** @description Temporary server error. */
         503: {
-          body: HereComponents['schemas']['ErrorResponse'];
+          body: HereSearchComponents['schemas']['ErrorResponse'];
         };
       };
     };
   };
 }>;
 
-export interface HereComponents {
+export interface HereSearchComponents {
   schemas: {
     OpenSearchGeocodeResponse: {
       /** @description The results are presented as a JSON list of candidates in ranked order (most-likely to least-likely) based on the matched location criteria. */
-      items: HereComponents['schemas']['GeocodeResultItem'][];
+      items: HereSearchComponents['schemas']['GeocodeResultItem'][];
     };
     GeocodeResultItem: {
       /** @description The localized display name of this result item. */
@@ -387,16 +387,16 @@ export interface HereComponents {
       /** @enum {string} */
       administrativeAreaType?: 'country' | 'county' | 'state';
       /** @description Postal address of the result item. */
-      address: HereComponents['schemas']['Address'];
+      address: HereSearchComponents['schemas']['Address'];
       /** @description Additional information for 'postalCodePoint' results (only rendered if 'show=postalCodeDetails' is provided and only in the countries which are using ZIP codes - USA, PRI, VIR, GUM, MNP and ASM) */
       postalCodeDetails?: (
-        | HereComponents['schemas']['PostalCodeDetails_Usps_Zip']
-        | HereComponents['schemas']['PostalCodeDetails_Usps_ZipPlus4']
+        | HereSearchComponents['schemas']['PostalCodeDetails_Usps_Zip']
+        | HereSearchComponents['schemas']['PostalCodeDetails_Usps_ZipPlus4']
       )[];
       /** @description The coordinates (latitude, longitude) of a pin on a map corresponding to the searched place. */
-      position?: HereComponents['schemas']['DisplayResponseCoordinate'];
+      position?: HereSearchComponents['schemas']['DisplayResponseCoordinate'];
       /** @description Coordinates of the place you are navigating to (for example, driving or walking). This is a point on a road or in a parking lot. */
-      access?: HereComponents['schemas']['AccessResponseCoordinate'][];
+      access?: HereSearchComponents['schemas']['AccessResponseCoordinate'][];
       /**
        * Format: int64
        * @description The distance \"as the crow flies\" from the search center to this result item in meters. For example: \"172039\".
@@ -406,36 +406,36 @@ export interface HereComponents {
        */
       distance?: number;
       /** @description The bounding box enclosing the geometric shape (area or line) that an individual result covers. `place` typed results have no `mapView`. */
-      mapView?: HereComponents['schemas']['MapView'];
+      mapView?: HereSearchComponents['schemas']['MapView'];
       /** @description The list of categories assigned to this place. */
-      categories?: HereComponents['schemas']['Category'][];
+      categories?: HereSearchComponents['schemas']['Category'][];
       /** @description The list of food types assigned to this place. */
-      foodTypes?: HereComponents['schemas']['Category'][];
+      foodTypes?: HereSearchComponents['schemas']['Category'][];
       /** @description If true, indicates that the requested house number was corrected to match the nearest known house number. This field is visible only when the value is true. */
       houseNumberFallback?: boolean;
       /** @description If true, indicates that the coordinates of 'position' and 'access' points of the Point Address are estimated.
        *     This field is visible only for result items with resultType 'houseNumber' and houseNumberType 'PA' and only when the value is 'true' */
       estimatedPointAddress?: boolean;
       /** @description Provides time zone information for this place. (rendered only if 'show=tz' is provided.) */
-      timeZone?: HereComponents['schemas']['TimeZoneInfo'];
+      timeZone?: HereSearchComponents['schemas']['TimeZoneInfo'];
       /** @description Indicates for each result how good the result matches to the original query. This can be used by the customer application to accept or reject the results depending on how "expensive" is the mistake for their use case */
-      scoring?: HereComponents['schemas']['Scoring'];
+      scoring?: HereSearchComponents['schemas']['Scoring'];
       /** @description Parsed terms and their positions in the input query (only rendered if 'show=parsing' is provided.) */
-      parsing?: HereComponents['schemas']['Parsing'];
+      parsing?: HereSearchComponents['schemas']['Parsing'];
       /** @description Street Details (only rendered if 'show=streetInfo' is provided.) */
-      streetInfo?: HereComponents['schemas']['StreetInfo'][];
+      streetInfo?: HereSearchComponents['schemas']['StreetInfo'][];
       /** @description Country Details (only rendered if 'show=countryInfo' is provided.) */
-      countryInfo?: HereComponents['schemas']['CountryInfo'];
+      countryInfo?: HereSearchComponents['schemas']['CountryInfo'];
       /** @description **ALPHA** Features all name translations and alternative names for requested address fields. */
-      translations?: HereComponents['schemas']['TranslationsGeocode'];
+      translations?: HereSearchComponents['schemas']['TranslationsGeocode'];
       /** @description Return the map references of the location objects. */
-      mapReferences?: HereComponents['schemas']['MapReferenceSection'];
+      mapReferences?: HereSearchComponents['schemas']['MapReferenceSection'];
       /** @description List of related objects */
-      related?: HereComponents['schemas']['RelatedAddress'][];
+      related?: HereSearchComponents['schemas']['RelatedAddress'][];
       /** @description Return requested additional attributes for segments in a road network if 'showNavAttributes' parameter
        *     is specified with valid value and relevant data is available. The value is a comma-separated list
        *     of the sections to be enabled. */
-      navigationAttributes?: HereComponents['schemas']['NavigationAttributes'];
+      navigationAttributes?: HereSearchComponents['schemas']['NavigationAttributes'];
     };
     Address: {
       /** @description Assembled address value built out of the address components according to the regional postal rules. These are the same rules for all endpoints. It may not include all the input terms. For example: "Schulstraße 4, 32547 Bad Oeynhausen, Germany" */
@@ -611,7 +611,7 @@ export interface HereComponents {
        */
       queryScore?: number;
       /** @description Indicates how good the individual result fields match to the corresponding part of the query. Is included only for the result fields that are actually matched to the query. */
-      fieldScore?: HereComponents['schemas']['FieldScore'];
+      fieldScore?: HereSearchComponents['schemas']['FieldScore'];
     };
     FieldScore: {
       /**
@@ -704,35 +704,35 @@ export interface HereComponents {
     };
     Parsing: {
       /** @description Place name matches */
-      placeName?: HereComponents['schemas']['MatchInfo'][];
+      placeName?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description Country matches */
-      country?: HereComponents['schemas']['MatchInfo'][];
+      country?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description State matches */
-      state?: HereComponents['schemas']['MatchInfo'][];
+      state?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description County matches */
-      county?: HereComponents['schemas']['MatchInfo'][];
+      county?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description City matches */
-      city?: HereComponents['schemas']['MatchInfo'][];
+      city?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description District matches */
-      district?: HereComponents['schemas']['MatchInfo'][];
+      district?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description Subdistrict matches */
-      subdistrict?: HereComponents['schemas']['MatchInfo'][];
+      subdistrict?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description Street matches */
-      street?: HereComponents['schemas']['MatchInfo'][];
+      street?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description Block matches */
-      block?: HereComponents['schemas']['MatchInfo'][];
+      block?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description Subblock matches */
-      subblock?: HereComponents['schemas']['MatchInfo'][];
+      subblock?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description HouseNumber matches */
-      houseNumber?: HereComponents['schemas']['MatchInfo'][];
+      houseNumber?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description PostalCode matches */
-      postalCode?: HereComponents['schemas']['MatchInfo'][];
+      postalCode?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description Building matches */
-      building?: HereComponents['schemas']['MatchInfo'][];
+      building?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description secondaryUnits matches */
-      secondaryUnits?: HereComponents['schemas']['MatchInfo'][];
+      secondaryUnits?: HereSearchComponents['schemas']['MatchInfo'][];
       /** @description Ontology name matches */
-      ontologyName?: HereComponents['schemas']['MatchInfo'][];
+      ontologyName?: HereSearchComponents['schemas']['MatchInfo'][];
     };
     MatchInfo: {
       /**
@@ -779,17 +779,17 @@ export interface HereComponents {
     };
     TranslationsGeocode: {
       /** @description The list of all state names and translations applicable to an address field, grouped by alternative views on it. For example, if subdivision of a country from administrative and postal views is different, some administrative levels may have two groups of names: from administrative and from postal views. */
-      stateNames?: HereComponents['schemas']['AdminNames'][];
+      stateNames?: HereSearchComponents['schemas']['AdminNames'][];
       /** @description The list of all county names and translations applicable to an address field, grouped by alternative views on it. For example, if subdivision of a country from administrative and postal views is different, some administrative levels may have two groups of names: from administrative and from postal views. */
-      countyNames?: HereComponents['schemas']['AdminNames'][];
+      countyNames?: HereSearchComponents['schemas']['AdminNames'][];
       /** @description The list of all city names and translations applicable to an address field, grouped by alternative views on it. For example, if subdivision of a country from administrative and postal views is different, some administrative levels may have two groups of names: from administrative and from postal views. */
-      cityNames?: HereComponents['schemas']['AdminNames'][];
+      cityNames?: HereSearchComponents['schemas']['AdminNames'][];
       /** @description The list of all district names and translations applicable to an address field, grouped by alternative views on it. For example, if subdivision of a country from administrative and postal views is different, some administrative levels may have two groups of names: from administrative and from postal views. */
-      districtNames?: HereComponents['schemas']['AdminNames'][];
+      districtNames?: HereSearchComponents['schemas']['AdminNames'][];
     };
     AdminNames: {
       /** @description The list of all values for a name. Those might be for different languages or different name types. */
-      names: HereComponents['schemas']['Name'][];
+      names: HereSearchComponents['schemas']['Name'][];
       /**
        * @description The preference of the view on an address field expressed by this group of names.
        *
@@ -827,25 +827,25 @@ export interface HereComponents {
     };
     MapReferenceSection: {
       /** @description An identifier for link and the side of link the attribute is applicable to */
-      links?: HereComponents['schemas']['LinkInfoSection'][];
+      links?: HereSearchComponents['schemas']['LinkInfoSection'][];
       /** @description The section containing the point address reference */
-      pointAddress?: HereComponents['schemas']['PointAddressSection'];
+      pointAddress?: HereSearchComponents['schemas']['PointAddressSection'];
       /** @description The section containing the segment references */
-      segments?: HereComponents['schemas']['Segment'][];
+      segments?: HereSearchComponents['schemas']['Segment'][];
       /** @description country id in HERE Map Content */
-      country?: HereComponents['schemas']['AdminIdSection'];
+      country?: HereSearchComponents['schemas']['AdminIdSection'];
       /** @description state id in HERE Map Content */
-      state?: HereComponents['schemas']['AdminIdSection'];
+      state?: HereSearchComponents['schemas']['AdminIdSection'];
       /** @description county id in HERE Map Content */
-      county?: HereComponents['schemas']['AdminIdSection'];
+      county?: HereSearchComponents['schemas']['AdminIdSection'];
       /** @description city id in HERE Map Content */
-      city?: HereComponents['schemas']['AdminIdSection'];
+      city?: HereSearchComponents['schemas']['AdminIdSection'];
       /** @description district id in HERE Map Content */
-      district?: HereComponents['schemas']['AdminIdSection'];
+      district?: HereSearchComponents['schemas']['AdminIdSection'];
       /** @description subdistrict id in HERE Map Content */
-      subdistrict?: HereComponents['schemas']['AdminIdSection'];
+      subdistrict?: HereSearchComponents['schemas']['AdminIdSection'];
       /** @description cmVerison info in HERE Map Content */
-      cmVersion?: HereComponents['schemas']['CmVersionSection'];
+      cmVersion?: HereSearchComponents['schemas']['CmVersionSection'];
     };
     LinkInfoSection: {
       /** @description link ID in HERE core map */
@@ -931,18 +931,18 @@ export interface HereComponents {
        */
       houseNumberType?: 'MPA' | 'PA' | 'interpolated';
       /** @description The address of the related entity. The fields are only rendered, if they differ from the main result item. */
-      address?: HereComponents['schemas']['RelatedResultAddress'];
+      address?: HereSearchComponents['schemas']['RelatedResultAddress'];
       /** @description The coordinates (latitude, longitude) of a pin on a map corresponding to the searched place. */
-      position?: HereComponents['schemas']['DisplayResponseCoordinate'];
+      position?: HereSearchComponents['schemas']['DisplayResponseCoordinate'];
       /** @description Coordinates of the place you are navigating to (for example, driving or walking). This is a point on a road or in a parking lot. */
-      access?: HereComponents['schemas']['AccessResponseCoordinate'][];
+      access?: HereSearchComponents['schemas']['AccessResponseCoordinate'][];
       /**
        * Format: int64
        * @description The distance "as the crow flies" from the search center to this related address' position in meters. It is only returned by reverse geocode endpoint or multi-reverse geocode endpoint when 'showRelated=intersections' parameter is provided.
        */
       distance?: number;
       /** @description The bounding box enclosing the geometric shape (area or line) that the related address covers. It is only returned by reverse geocode endpoint or multi-reverse geocode endpoint when 'showRelated=intersections' parameter is provided. */
-      mapView?: HereComponents['schemas']['MapView'];
+      mapView?: HereSearchComponents['schemas']['MapView'];
     };
     RelatedResultAddress: {
       /** @description Assembled address value built out of the address components according to the regional postal rules. These are the same rules for all endpoints. It may not include all the input terms. */
@@ -984,11 +984,11 @@ export interface HereComponents {
     };
     NavigationAttributes: {
       /** @description The value represents one of the five levels: */
-      functionalClass?: HereComponents['schemas']['FunctionalClass'][];
+      functionalClass?: HereSearchComponents['schemas']['FunctionalClass'][];
       /** @description The following boolean values are available for access attributes: */
-      access?: HereComponents['schemas']['Access'][];
+      access?: HereSearchComponents['schemas']['Access'][];
       /** @description The following boolean values are available for physical attributes: */
-      physical?: HereComponents['schemas']['Physical'][];
+      physical?: HereSearchComponents['schemas']['Physical'][];
     };
     FunctionalClass: {
       /**
@@ -1152,7 +1152,7 @@ export interface HereComponents {
     };
     SupplierReference: {
       /** @description Information about the supplier of this reference. */
-      supplier: HereComponents['schemas']['ReferenceSupplier'];
+      supplier: HereSearchComponents['schemas']['ReferenceSupplier'];
       /** @description Identifier of the place as provided by the supplier. */
       id: string;
     };
@@ -1164,12 +1164,12 @@ export interface HereComponents {
       id: 'booking.com' | 'core' | 'nsr' | 'parkopedia' | 'ryd' | 'tripadvisor' | 'venues' | 'vinfast' | 'yelp';
     };
     ContactInformation: {
-      phone?: HereComponents['schemas']['Contact'][];
-      mobile?: HereComponents['schemas']['Contact'][];
-      tollFree?: HereComponents['schemas']['Contact'][];
-      fax?: HereComponents['schemas']['Contact'][];
-      www?: HereComponents['schemas']['Contact'][];
-      email?: HereComponents['schemas']['Contact'][];
+      phone?: HereSearchComponents['schemas']['Contact'][];
+      mobile?: HereSearchComponents['schemas']['Contact'][];
+      tollFree?: HereSearchComponents['schemas']['Contact'][];
+      fax?: HereSearchComponents['schemas']['Contact'][];
+      www?: HereSearchComponents['schemas']['Contact'][];
+      email?: HereSearchComponents['schemas']['Contact'][];
     };
     Contact: {
       /** @description Optional label for the contact string, such as "Customer Service" or "Pharmacy Fax". */
@@ -1177,7 +1177,7 @@ export interface HereComponents {
       /** @description Contact information, as specified by the contact type. */
       value: string;
       /** @description The list of place categories this contact refers to. */
-      categories?: HereComponents['schemas']['CategoryRef'][];
+      categories?: HereSearchComponents['schemas']['CategoryRef'][];
     };
     CategoryRef: {
       /** @description Identifier number for an associated category. For example: "900-9300-0000" */
@@ -1185,11 +1185,11 @@ export interface HereComponents {
     };
     OpeningHours: {
       /** @description The list of place categories, this set of opening hours refers to. */
-      categories?: HereComponents['schemas']['CategoryRef'][];
+      categories?: HereSearchComponents['schemas']['CategoryRef'][];
       text: string[];
       isOpen?: boolean;
       /** @description List of iCalender-based structured representations of opening hours */
-      structured: HereComponents['schemas']['StructuredOpeningHours'][];
+      structured: HereSearchComponents['schemas']['StructuredOpeningHours'][];
     };
     StructuredOpeningHours: {
       /** @description String with a modified [iCalendar DATE-TIME](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.5) value.
@@ -1204,15 +1204,15 @@ export interface HereComponents {
     ExtendedAttribute: {
       /** @description **BETA, RESTRICTED** EV charging pool information.
        *     This element and its children are only rendered when 'show=ev' is provided. */
-      evStation?: HereComponents['schemas']['EvChargingAttributes'];
+      evStation?: HereSearchComponents['schemas']['EvChargingAttributes'];
       /** @description **BETA, RESTRICTED** EV charging pool detailed availability
        *     Detailed information about the pool stations, EVSE and connectors.
        *     This element and its children are only rendered when 'show=ev' is provided. */
-      evAvailability?: HereComponents['schemas']['EvAvailabilityAttributes'];
+      evAvailability?: HereSearchComponents['schemas']['EvAvailabilityAttributes'];
     };
     EvChargingAttributes: {
       /** @description **BETA, RESTRICTED** List of EV pool groups of connectors. Each group is defined by a common charging connector type and max power level. The numberOfConnectors field contains the number of connectors in the group. */
-      connectors?: HereComponents['schemas']['EvConnector'][];
+      connectors?: HereSearchComponents['schemas']['EvConnector'][];
       /**
        * Format: int32
        * @description **BETA, RESTRICTED** Total number of charging connectors in the EV charging pool
@@ -1225,14 +1225,14 @@ export interface HereComponents {
       access?: 'private' | 'public' | 'restricted';
       /** @description **BETA, RESTRICTED** The list of eMSP (e-Mobility Service Provider) for which the EV station operator has EV roaming agreements.
        *     Each element contains both the name and the partner ID of the eMSP. */
-      eMobilityServiceProviders?: HereComponents['schemas']['EMobilityServiceProvider'][];
+      eMobilityServiceProviders?: HereSearchComponents['schemas']['EMobilityServiceProvider'][];
     };
     EvConnector: {
       /** @description **BETA, RESTRICTED** The EV charge point operator */
       supplierName?: string;
       /** @description **BETA, RESTRICTED** Id and name element pair representing the connector type in the EV pool group.
        *     For more information on the current connector types, see the [connectorTypes](https://www.here.com/docs/bundle/ev-charge-points-api-developer-guide/page/topics/resource-type-connector-types.html) values in the HERE EV Charge Points API. */
-      connectorType?: HereComponents['schemas']['EvNameId'];
+      connectorType?: HereSearchComponents['schemas']['EvNameId'];
       /** @description **BETA, RESTRICTED** Boolean indicating if a cable is provided for the connector group.If true, then there is a cable for the connector group at the station. */
       fixedCable?: boolean;
       /**
@@ -1241,7 +1241,7 @@ export interface HereComponents {
        */
       maxPowerLevel?: number;
       /** @description **BETA, RESTRICTED** Connectors group additional charging information */
-      chargingPoint?: HereComponents['schemas']['EvChargingPoint'];
+      chargingPoint?: HereSearchComponents['schemas']['EvChargingPoint'];
     };
     EvNameId: {
       /** @description **BETA, RESTRICTED** Any string value */
@@ -1311,7 +1311,7 @@ export interface HereComponents {
     };
     EvAvailabilityAttributes: {
       /** @description **BETA, RESTRICTED** List of EV stations at the place (Currently only one is expected) */
-      stations?: HereComponents['schemas']['EvAvailabilityStation'][];
+      stations?: HereSearchComponents['schemas']['EvAvailabilityStation'][];
     };
     EvAvailabilityStation: {
       /** @description **BETA, RESTRICTED** HERE ID of the station */
@@ -1319,7 +1319,7 @@ export interface HereComponents {
       /** @description **BETA, RESTRICTED** The unique ID of the location in the system of the CPO. */
       cpoId?: string;
       /** @description **BETA, RESTRICTED** List of EVSE (electric vehicle supply equipment) in the EV station */
-      evses?: HereComponents['schemas']['EvAvailabilityEvse'][];
+      evses?: HereSearchComponents['schemas']['EvAvailabilityEvse'][];
     };
     EvAvailabilityEvse: {
       /** @description **BETA, RESTRICTED** HERE ID of the EVSE */
@@ -1352,7 +1352,7 @@ export interface HereComponents {
        *     then the offset is added as a ±[hh][mm] value (for example, "`2014-01-14T10:00:00.000+0100`"). */
       last_updated?: string;
       /** @description **BETA, RESTRICTED** List of connectors of this EVSE. */
-      connectors?: HereComponents['schemas']['EvAvailabilityConnector'][];
+      connectors?: HereSearchComponents['schemas']['EvAvailabilityConnector'][];
     };
     EvAvailabilityConnector: {
       /** @description **BETA, RESTRICTED** HERE ID of the connector. */
@@ -1370,25 +1370,25 @@ export interface HereComponents {
     };
     PhonemesSection: {
       /** @description Phonemes for the name of the place. */
-      placeName?: HereComponents['schemas']['Phoneme'][];
+      placeName?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the county name. */
-      countryName?: HereComponents['schemas']['Phoneme'][];
+      countryName?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the state name. */
-      state?: HereComponents['schemas']['Phoneme'][];
+      state?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the county name. */
-      county?: HereComponents['schemas']['Phoneme'][];
+      county?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the city name. */
-      city?: HereComponents['schemas']['Phoneme'][];
+      city?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the district name. */
-      district?: HereComponents['schemas']['Phoneme'][];
+      district?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the subdistrict name. */
-      subdistrict?: HereComponents['schemas']['Phoneme'][];
+      subdistrict?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the street name. */
-      street?: HereComponents['schemas']['Phoneme'][];
+      street?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the block. */
-      block?: HereComponents['schemas']['Phoneme'][];
+      block?: HereSearchComponents['schemas']['Phoneme'][];
       /** @description Phonemes for the sub-block. */
-      subblock?: HereComponents['schemas']['Phoneme'][];
+      subblock?: HereSearchComponents['schemas']['Phoneme'][];
     };
     Phoneme: {
       /** @description The actual phonetic transcription in the NT-SAMPA format. */
@@ -1400,16 +1400,16 @@ export interface HereComponents {
     };
     Media: {
       /** @description An object that provides access to images attached to the place result. */
-      images?: HereComponents['schemas']['ImageMediaCollection'];
+      images?: HereSearchComponents['schemas']['ImageMediaCollection'];
       /** @description An object that provides editorial descriptions about a place result. */
-      editorials?: HereComponents['schemas']['EditorialMediaCollection'];
+      editorials?: HereSearchComponents['schemas']['EditorialMediaCollection'];
       /** @description An object that provides 3rd party supplier ratings about the place result. */
-      ratings?: HereComponents['schemas']['RatingMediaCollection'];
+      ratings?: HereSearchComponents['schemas']['RatingMediaCollection'];
     };
     ImageMediaCollection: {
       /** @description An array containing the image objects of the current place result.
        *     If the place has no image, the parent element `images` is not present. */
-      items: HereComponents['schemas']['Image'][];
+      items: HereSearchComponents['schemas']['Image'][];
     };
     Image: {
       /** @description The URL to the actual image */
@@ -1417,7 +1417,7 @@ export interface HereComponents {
       /** @description The date the image was uploaded. */
       date?: string;
       /** @description Information about the supplier of this image. */
-      supplier: HereComponents['schemas']['MediaSupplier'];
+      supplier: HereSearchComponents['schemas']['MediaSupplier'];
     };
     MediaSupplier: {
       /**
@@ -1429,7 +1429,7 @@ export interface HereComponents {
     EditorialMediaCollection: {
       /** @description An array containing the editorial objects of the current place result.
        *     If the place has no editorials, the parent element `editorials` is not present. */
-      items: HereComponents['schemas']['Editorial'][];
+      items: HereSearchComponents['schemas']['Editorial'][];
     };
     Editorial: {
       /** @description The editorial content. */
@@ -1439,12 +1439,12 @@ export interface HereComponents {
       /** @description An optional deep link to a 3rd party source providing the editorials. */
       href?: string;
       /** @description Information about the supplier of this editorial. */
-      supplier: HereComponents['schemas']['MediaSupplier'];
+      supplier: HereSearchComponents['schemas']['MediaSupplier'];
     };
     RatingMediaCollection: {
       /** @description An array containing the ratings objects of the current place result.
        *     If the place has no ratings, the parent element `ratings` is not present. */
-      items: HereComponents['schemas']['Rating'][];
+      items: HereSearchComponents['schemas']['Rating'][];
     };
     Rating: {
       /**
@@ -1460,11 +1460,11 @@ export interface HereComponents {
       /** @description An optional deep link to a 3rd party source providing the ratings information. */
       href?: string;
       /** @description Information about the supplier of this rating. */
-      supplier: HereComponents['schemas']['MediaSupplier'];
+      supplier: HereSearchComponents['schemas']['MediaSupplier'];
     };
     AccessRestrictionAttributes: {
       /** @description The list of place categories, this set of access restrictions refers to. */
-      categories?: HereComponents['schemas']['CategoryRef'][];
+      categories?: HereSearchComponents['schemas']['CategoryRef'][];
       /** @description When set to `true`, the place response item has a known access restriction.
        *     When the place has no known access restriction, the `accessRestrictions` element is omitted, so `restricted` value is never set to `false`. */
       restricted?: boolean;
@@ -1517,52 +1517,52 @@ export interface HereComponents {
        *     This field is visible only for result items with resultType 'houseNumber' and houseNumberType 'PA' and only when the value is 'true' */
       estimatedPointAddress?: boolean;
       /** @description Postal address of the result item. */
-      address: HereComponents['schemas']['Address'];
+      address: HereSearchComponents['schemas']['Address'];
       /** @description Additional information for 'postalCodePoint' results (only rendered if 'show=postalCodeDetails' is provided and only in the countries which are using ZIP codes - USA, PRI, VIR, GUM, MNP and ASM) */
       postalCodeDetails?: (
-        | HereComponents['schemas']['PostalCodeDetails_Usps_Zip']
-        | HereComponents['schemas']['PostalCodeDetails_Usps_ZipPlus4']
+        | HereSearchComponents['schemas']['PostalCodeDetails_Usps_Zip']
+        | HereSearchComponents['schemas']['PostalCodeDetails_Usps_ZipPlus4']
       )[];
       /** @description The coordinates (latitude, longitude) of a pin on a map corresponding to the searched place. */
-      position?: HereComponents['schemas']['DisplayResponseCoordinate'];
+      position?: HereSearchComponents['schemas']['DisplayResponseCoordinate'];
       /** @description Coordinates of the place you are navigating to (for example, driving or walking). This is a point on a road or in a parking lot. */
-      access?: HereComponents['schemas']['AccessResponseCoordinate'][];
+      access?: HereSearchComponents['schemas']['AccessResponseCoordinate'][];
       /** @description The bounding box enclosing the geometric shape (area or line) that an individual result covers. `place` typed results have no `mapView`. */
-      mapView?: HereComponents['schemas']['MapView'];
+      mapView?: HereSearchComponents['schemas']['MapView'];
       /** @description The list of categories assigned to this place. */
-      categories?: HereComponents['schemas']['Category'][];
+      categories?: HereSearchComponents['schemas']['Category'][];
       /** @description The list of chains assigned to this place. */
-      chains?: HereComponents['schemas']['Chain'][];
+      chains?: HereSearchComponents['schemas']['Chain'][];
       /** @description The list of supplier references available for this place. */
-      references?: HereComponents['schemas']['SupplierReference'][];
+      references?: HereSearchComponents['schemas']['SupplierReference'][];
       /** @description The list of food types assigned to this place. */
-      foodTypes?: HereComponents['schemas']['Category'][];
+      foodTypes?: HereSearchComponents['schemas']['Category'][];
       /** @description Contact information like phone, email, WWW. */
-      contacts?: HereComponents['schemas']['ContactInformation'][];
+      contacts?: HereSearchComponents['schemas']['ContactInformation'][];
       /** @description A list of hours during which the place is open for business.
        *     This field is optional: When it is not present, it means that we are lacking data about the place opening hours.
        *     Days without opening hours have to be considered as closed. */
-      openingHours?: HereComponents['schemas']['OpeningHours'][];
+      openingHours?: HereSearchComponents['schemas']['OpeningHours'][];
       /** @description Provides time zone information for this place. (rendered only if 'show=tz' is provided.) */
-      timeZone?: HereComponents['schemas']['TimeZoneInfo'];
+      timeZone?: HereSearchComponents['schemas']['TimeZoneInfo'];
       /** @description **BETA, RESTRICTED** A set of rich media types aggregated from multiple sources. When the current place has no ratings, description or images, this element is not present. */
-      media?: HereComponents['schemas']['Media'];
+      media?: HereSearchComponents['schemas']['Media'];
       /** @description Extended attributes section to contain detailed information for specific result types. */
-      extended?: HereComponents['schemas']['ExtendedAttribute'];
+      extended?: HereSearchComponents['schemas']['ExtendedAttribute'];
       /** @description Phonemes for address and place names. (rendered only if 'show=phonemes' is provided.) */
-      phonemes?: HereComponents['schemas']['PhonemesSection'];
+      phonemes?: HereSearchComponents['schemas']['PhonemesSection'];
       /** @description Street Details (only rendered if 'show=streetInfo' is provided.) */
-      streetInfo?: HereComponents['schemas']['StreetInfo'][];
+      streetInfo?: HereSearchComponents['schemas']['StreetInfo'][];
       /** @description Country Details (only rendered if 'show=countryInfo' is provided.) */
-      countryInfo?: HereComponents['schemas']['CountryInfo'];
+      countryInfo?: HereSearchComponents['schemas']['CountryInfo'];
       /** @description Return the map references of the location objects. */
-      mapReferences?: HereComponents['schemas']['MapReferenceSection'];
+      mapReferences?: HereSearchComponents['schemas']['MapReferenceSection'];
       /** @description List of related objects */
-      related?: HereComponents['schemas']['RelatedAddress'][];
+      related?: HereSearchComponents['schemas']['RelatedAddress'][];
       /** @description Return requested additional attributes for segments in a road network if 'showNavAttributes' parameter
        *     is specified with valid value and relevant data is available. The value is a comma-separated list
        *     of the sections to be enabled. */
-      navigationAttributes?: HereComponents['schemas']['NavigationAttributes'];
+      navigationAttributes?: HereSearchComponents['schemas']['NavigationAttributes'];
       /**
        * @description A list of access restrictions related to a `place` result item.
        *
@@ -1581,7 +1581,7 @@ export interface HereComponents {
        *       }
        *     ]
        */
-      accessRestrictions?: HereComponents['schemas']['AccessRestrictionAttributes'][];
+      accessRestrictions?: HereSearchComponents['schemas']['AccessRestrictionAttributes'][];
     };
   };
 }

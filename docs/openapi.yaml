@@ -1,0 +1,179 @@
+openapi: 3.1.0
+
+info:
+  title: API de Localização
+  version: 1.0.0
+servers:
+  - url: https://apidelocalizacao.vercel.app
+tags:
+  - name: Localização
+
+paths:
+  /cities:
+    get:
+      summary: Buscar cidades
+      operationId: cities/search
+      tags:
+        - Localização
+      parameters:
+        - name: query
+          in: query
+          description: O nome da cidade para busca
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cidades encontradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/City'
+        '400':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '5XX':
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  /cities/distances:
+    get:
+      summary: Obter distância entre cidades
+      operationId: cities/distances/get
+      tags:
+        - Localização
+      parameters:
+        - name: originCityId
+          in: query
+          description: O identificador da cidade de origem
+          required: true
+          schema:
+            type: string
+          example: aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDMwNjEy
+        - name: destinationCityId
+          in: query
+          description: O identificador da cidade de destino
+          required: true
+          schema:
+            type: string
+          example: aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDM2NjI4
+      responses:
+        '200':
+          description: Distância encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distance'
+        '400':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Uma ou ambas as cidades não encontradas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '5XX':
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+components:
+  schemas:
+    City:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          description: O identificador da cidade
+          example: aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDMwNjEy
+        name:
+          type: string
+          description: O nome da cidade
+          example: São Paulo
+        state:
+          type: object
+          description: O estado da cidade
+          properties:
+            name:
+              type: string
+              description: O nome do estado
+              example: São Paulo
+            code:
+              type: string
+              description: O código do estado
+              example: SP
+        country:
+          type: object
+          description: O país da cidade
+          properties:
+            name:
+              type: string
+              description: O nome do país
+              example: Brasil
+            code:
+              type: string
+              description: O código do país
+              example: BRA
+
+    Distance:
+      type: object
+      required:
+        - kilometers
+      properties:
+        kilometers:
+          type: number
+          description: A distância em quilômetros (km)
+          format: double
+          example: 145.3
+
+    ValidationError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A mensagem de erro
+          example: Entrada inválida
+        issues:
+          type: array
+          description: Os problemas de validação
+          items:
+            type: object
+            additionalProperties: true
+
+    NotFoundError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A mensagem de erro
+          example: Item não encontrado
+
+    InternalServerError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A mensagem de erro
+          example: Erro inesperado

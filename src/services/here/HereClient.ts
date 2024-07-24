@@ -34,21 +34,29 @@ class HereClient {
   }
 
   async searchCities(query: string): Promise<HereGeocodeResultItem[]> {
+    const cities = await this.geocode({
+      q: query,
+      types: ['city'],
+    });
+
+    return cities;
+  }
+
+  private async geocode(params: HereGeocodeSearchParams): Promise<HereGeocodeResultItem[]> {
     const response = await this.api.geocode.get<HereGeocodeSuccessResponseBody>('/geocode', {
       params: {
-        q: query,
-        types: ['city'],
         lang: ['pt'],
         limit: '10',
+        ...params,
       } satisfies HereGeocodeSearchParams,
     });
 
-    const cities = response.data.items.map((item) => ({
+    const items = response.data.items.map((item) => ({
       ...item,
       id: this.encodePointId(item.id),
     }));
 
-    return cities;
+    return items;
   }
 
   async lookupById(pointId: string): Promise<HereLookupPoint> {

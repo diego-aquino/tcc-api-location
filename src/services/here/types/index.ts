@@ -1,9 +1,9 @@
-import { HereComponents, HereSchema } from './generated';
+import { HereSearchComponents, HereSearchSchema } from './search.generated';
 
-export type HereGeocodeSearchParams = HereSchema['/geocode']['GET']['request']['searchParams'];
-export type HereGeocodeSuccessResponseBody = HereSchema['/geocode']['GET']['response']['200']['body'];
-export type HereGeocodeResultItem = HereComponents['schemas']['GeocodeResultItem'];
+export type HereGeocodeSearchParams = HereSearchSchema['/geocode']['GET']['request']['searchParams'];
+export type HereGeocodeSuccessResponseBody = HereSearchSchema['/geocode']['GET']['response']['200']['body'];
+export type HereGeocodeResultItem = HereSearchComponents['schemas']['GeocodeResultItem'];
 
-export type HereLookupSearchParams = HereSchema['/lookup']['GET']['request']['searchParams'];
-export type HereLookupSuccessResponseBody = HereSchema['/lookup']['GET']['response']['200']['body'];
-export type HereLookupPoint = HereComponents['schemas']['LookupResponse'];
+export type HereLookupSearchParams = HereSearchSchema['/lookup']['GET']['request']['searchParams'];
+export type HereLookupSuccessResponseBody = HereSearchSchema['/lookup']['GET']['response']['200']['body'];
+export type HereLookupPoint = HereSearchComponents['schemas']['LookupResponse'];
