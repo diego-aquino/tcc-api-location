@@ -8,6 +8,11 @@ GET http://localhost:3000/cities
 
 ###
 
+GET http://localhost:3000/cities
+  ?query='Denver, USA'
+
+###
+
 GET http://localhost:3000/cities/distances
   ?originCityId=aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDMwNjEy
   &destinationCityId=aGVyZTpjbTpuYW1lZHBsYWNlOjIzMDM2NjI4
