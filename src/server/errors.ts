@@ -5,12 +5,7 @@ import { ZodError } from 'zod';
 import server from '@/server/server';
 import { LocationComponents } from '@/types/generated';
 
-export class NotFoundError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'NotFoundError';
-  }
-}
+export class NotFoundError extends Error {}
 
 export function handleServerError(error: FastifyError, _request: FastifyRequest, reply: FastifyReply) {
   if (error instanceof ZodError) {
