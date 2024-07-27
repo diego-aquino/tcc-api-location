@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { FastifyError, FastifyRequest, FastifyReply } from 'fastify';
 import { ZodError } from 'zod';
 
-import server from '@/server/server';
+import app from '@/server/app';
 import { LocationComponents } from '@/types/generated';
 
 export class NotFoundError extends Error {}
@@ -27,12 +27,12 @@ export function handleServerError(error: FastifyError, _request: FastifyRequest,
       data: error.response?.data as unknown,
     };
 
-    server.log.error({
+    app.log.error({
       message: 'Request error',
       error: formattedError,
     });
   } else {
-    server.log.error({
+    app.log.error({
       message: 'Internal server error',
       error,
     });

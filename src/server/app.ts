@@ -2,21 +2,17 @@ import fastify from 'fastify';
 import type { LiteralHttpServiceSchemaPath } from 'zimic/http';
 import { z } from 'zod';
 
+import api from '@/clients/api';
 import { pickDefinedProperties } from '@/utils/data';
 
 import { environment } from '../config/environment';
-import HereClient from '../services/here/HereClient';
 import { LocationOperations, LocationSchema } from '../types/generated';
 import { City } from '../types/locations';
 import { calculateDistanceByCoordinates } from '../utils/distances';
 import { DEFAULT_PUBLIC_CACHE_CONTROL_HEADER } from './cache';
 import { handleServerError, NotFoundError } from './errors';
 
-const api = {
-  here: new HereClient(),
-};
-
-const server = fastify({
+const app = fastify({
   logger: true,
   disableRequestLogging: environment.NODE_ENV !== 'development',
   pluginTimeout: 0,
@@ -28,7 +24,7 @@ const searchCitiesSchema = z.object({
   query: z.string().min(1),
 });
 
-server.get('/cities' satisfies LocationPath, async (request, reply) => {
+app.get('/cities' satisfies LocationPath, async (request, reply) => {
   const { query } = searchCitiesSchema.parse(
     request.query,
   ) satisfies LocationOperations['cities/search']['request']['searchParams'];
@@ -57,7 +53,7 @@ const getDistanceBetweenCitiesSchema = z.object({
   destinationCityId: z.string().min(1),
 });
 
-server.get('/cities/distances' satisfies LocationPath, async (request, reply) => {
+app.get('/cities/distances' satisfies LocationPath, async (request, reply) => {
   const { originCityId, destinationCityId } = getDistanceBetweenCitiesSchema.parse(
     request.query,
   ) satisfies LocationOperations['cities/distances/get']['request']['searchParams'];
@@ -90,6 +86,6 @@ server.get('/cities/distances' satisfies LocationPath, async (request, reply) =>
     } satisfies LocationOperations['cities/distances/get']['response']['200']['body']);
 });
 
-server.setErrorHandler(handleServerError);
+app.setErrorHandler(handleServerError);
 
-export default server;
+export default app;
