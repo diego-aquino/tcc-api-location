@@ -36,7 +36,7 @@ const server = fastify({
 type LocationPath = LiteralHttpServiceSchemaPath<LocationSchema>;
 
 const searchCitiesSchema = z.object({
-  query: z.string(),
+  query: z.string().min(1),
 });
 
 server.get('/cities' satisfies LocationPath, async (request, reply) => {
@@ -64,8 +64,8 @@ server.get('/cities' satisfies LocationPath, async (request, reply) => {
 });
 
 const getDistanceBetweenCitiesSchema = z.object({
-  originCityId: z.string(),
-  destinationCityId: z.string(),
+  originCityId: z.string().min(1),
+  destinationCityId: z.string().min(1),
 });
 
 server.get('/cities/distances' satisfies LocationPath, async (request, reply) => {

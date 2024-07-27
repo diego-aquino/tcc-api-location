@@ -6,7 +6,7 @@ const environmentSchema = z.object({
 
   HERE_GEOCODING_URL: z.string().url(),
   HERE_LOOKUP_URL: z.string().url(),
-  HERE_API_KEY: z.string(),
+  HERE_API_KEY: z.string().min(1),
 });
 
 export const environment = environmentSchema.parse(process.env);
