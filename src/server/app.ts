@@ -3,7 +3,6 @@ import type { LiteralHttpServiceSchemaPath } from 'zimic/http';
 import { z } from 'zod';
 
 import api from '@/clients/api';
-import { pickDefinedProperties } from '@/utils/data';
 
 import { environment } from '../config/environment';
 import { LocationOperations, LocationSchema } from '../types/generated';
@@ -42,10 +41,11 @@ app.get('/cities' satisfies LocationPath, async (request, reply) => {
     }),
   );
 
-  return reply
-    .headers(pickDefinedProperties({ 'cache-control': DEFAULT_PUBLIC_CACHE_CONTROL_HEADER }))
-    .status(200)
-    .send(cities satisfies LocationOperations['cities/search']['response']['200']['body']);
+  if (DEFAULT_PUBLIC_CACHE_CONTROL_HEADER) {
+    void reply.header('cache-control', DEFAULT_PUBLIC_CACHE_CONTROL_HEADER);
+  }
+
+  return reply.status(200).send(cities satisfies LocationOperations['cities/search']['response']['200']['body']);
 });
 
 const getDistanceBetweenCitiesSchema = z.object({
@@ -78,12 +78,13 @@ app.get('/cities/distances' satisfies LocationPath, async (request, reply) => {
     { latitude: destinationPosition.lat, longitude: destinationPosition.lng },
   );
 
-  return reply
-    .headers(pickDefinedProperties({ 'cache-control': DEFAULT_PUBLIC_CACHE_CONTROL_HEADER }))
-    .status(200)
-    .send({
-      kilometers: distanceInKilometers,
-    } satisfies LocationOperations['cities/distances/get']['response']['200']['body']);
+  if (DEFAULT_PUBLIC_CACHE_CONTROL_HEADER) {
+    void reply.header('cache-control', DEFAULT_PUBLIC_CACHE_CONTROL_HEADER);
+  }
+
+  return reply.status(200).send({
+    kilometers: distanceInKilometers,
+  } satisfies LocationOperations['cities/distances/get']['response']['200']['body']);
 });
 
 app.setErrorHandler(handleServerError);
