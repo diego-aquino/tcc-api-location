@@ -12,7 +12,7 @@ import { DEFAULT_PUBLIC_CACHE_CONTROL_HEADER } from './cache';
 import { handleServerError, NotFoundError } from './errors';
 
 const app = fastify({
-  logger: true,
+  logger: environment.NODE_ENV !== 'test',
   disableRequestLogging: environment.NODE_ENV !== 'development',
   pluginTimeout: 0,
 });
