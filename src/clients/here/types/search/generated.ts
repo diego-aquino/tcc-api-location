@@ -3,7 +3,7 @@
 
 import type { HttpHeadersSerialized, HttpSchema, HttpSearchParamsSerialized } from 'zimic/http';
 
-export type HereSearchSchema = HttpSchema.Paths<{
+export type HereSearchSchema = HttpSchema<{
   '/geocode': {
     /**
      * Geocode

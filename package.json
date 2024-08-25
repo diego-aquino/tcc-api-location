@@ -18,7 +18,7 @@
     "types:check": "tsc --noEmit",
     "typegen": "dotenv -c development -- concurrently --names location,here-search 'pnpm typegen:location' 'pnpm typegen:here-search' && pnpm lint 'src/**/*generated.ts'",
     "typegen:location": "zimic typegen openapi ./docs/spec/openapi.yaml --output src/types/generated.ts --service-name Location",
-    "typegen:here-search": "zimic typegen openapi $HERE_SEARCH_OPENAPI_URL --output src/services/here/types/search/generated.ts --service-name HereSearch --filter-file src/services/here/types/search/filters.txt",
+    "typegen:here-search": "zimic typegen openapi $HERE_SEARCH_OPENAPI_URL --output src/clients/here/types/search/generated.ts --service-name HereSearch --filter-file src/clients/here/types/search/filters.txt",
     "test": "dotenv -c test -- dotenv -c development -- vitest",
     "pre:commit": "lint-staged",
     "pre:push": "concurrently --names style,types,lint 'pnpm style:check .' 'pnpm types:check' 'pnpm lint .'",
@@ -50,6 +50,6 @@
     "prettier-plugin-sh": "^0.14.0",
     "tsup": "^8.2.2",
     "typescript": "^5.5.4",
-    "zimic": "^0.9.0"
+    "zimic": "^0.9.1"
   }
 }

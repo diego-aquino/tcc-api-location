@@ -8,7 +8,7 @@ import type {
   MergeHttpResponsesByStatusCode,
 } from 'zimic/http';
 
-export type LocationSchema = HttpSchema.Paths<{
+export type LocationSchema = HttpSchema<{
   '/cities': {
     /** Buscar cidades */
     GET: LocationOperations['cities/search'];
@@ -68,7 +68,7 @@ export interface LocationComponents {
        */
       message: string;
       /** @description Os problemas de validação */
-      issues?: {
+      issues?: ({
         /**
          * @description A mensagem de erro
          * @example Invalid input: expected string, received number
@@ -87,8 +87,9 @@ export interface LocationComponents {
          *     ]
          */
         path?: (string | number)[];
+      } & {
         [key: string]: any;
-      }[];
+      })[];
     };
     NotFoundError: {
       /**
